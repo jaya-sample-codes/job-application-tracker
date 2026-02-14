@@ -1,8 +1,10 @@
+import { getSession } from '@/lib/auth/auth';
 import { Briefcase } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 
-function Navbar() {
+const Navbar = async () => {
+  const session = await getSession();
   return (
     <nav className="border-b border-gray-200 bg-white">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
@@ -13,20 +15,28 @@ function Navbar() {
           Job Tracker
         </Link>
         <div className="flex items-center gap-4">
-          <Link href="/sign-in">
-            <Button variant="ghost" className="text-gray-700 hover:text-black">
-              Login
-            </Button>
-          </Link>
-          <Link href="/sign-up">
-            <Button className="bg-primary hover:bg-primary/90">
-              Start for free
-            </Button>
-          </Link>
+          {session?.session ? (
+            <></>
+          ) : (
+            <>
+              <Link href="/sign-in">
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-black">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button className="bg-primary hover:bg-primary/90">
+                  Start for free
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
